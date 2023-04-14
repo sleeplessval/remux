@@ -1,8 +1,8 @@
-use std::process::exit;
 
 use pico_args::Arguments;
 
 mod command;
+mod error;
 mod util;
 
 fn main() {
@@ -14,11 +14,14 @@ fn main() {
 
 	match subcommand.as_deref() {
 		Some("h")		|	//	help text
-		Some("help")	=>	help_text(),
+		Some("help")	=>	command::help(&mut args),
 
 		Some("a")		|	//	attach
 		Some("attach")	=>	command::attach(&mut args),
 
+		Some("has")		=>	command::has(&mut args),
+
+		None			|
 		Some("l")		|	//	list
 		Some("ls")		|
 		Some("list")	=>	command::list(),
@@ -26,18 +29,7 @@ fn main() {
 		Some("n")		|	//	new
 		Some("new")		=>	command::new(&mut args),
 
-		None			|	//	none should do something else later
-		_				=>	{
-			println!("no command match for \"{}\"\n", subcommand.unwrap());
-			help_text();
-			exit(1);
-		}
+		_				=>	error::no_subcommand(subcommand.unwrap())
 	}
-}
-
-fn help_text() {
-	println!("remux v{}", env!("CARGO_PKG_VERSION"));
-	println!("Valerie Wolfe <sleeplessval@gmail.com>");
-	println!("A command wrapper for tmux written in Rust.");
 }
 
