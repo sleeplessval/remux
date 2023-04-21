@@ -14,7 +14,7 @@ pub fn help(pargs: &mut Arguments) {
 	let topic = pargs.subcommand().unwrap();
 
 	match topic.as_deref() {
-		None		=> {		//	program
+		None => {		//	program
 			println!("remux v{}", env!("CARGO_PKG_VERSION"));
 			println!("Valerie Wolfe <sleeplessval@gmail.com>");
 			println!("A command wrapper for tmux written in Rust.\n");
@@ -32,8 +32,8 @@ pub fn help(pargs: &mut Arguments) {
 		},
 
 
-		Some("a")		|		//	attach
-		Some("attach")	=> {
+		Some("a" | "attach")
+		=> {
 			println!("remux attach");
 			println!("Attach to an existing session.\n");
 
@@ -45,7 +45,8 @@ pub fn help(pargs: &mut Arguments) {
 		},
 
 								//	has
-		Some("has")		=> {
+		Some("has")
+		=> {
 			println!("remux has");
 			println!("Check if the target session exists.\n");
 
@@ -58,17 +59,16 @@ pub fn help(pargs: &mut Arguments) {
 			println!("   -q, --quiet    Display no text; exit code only");
 		},
 
-		Some("l")		|		//	list
-		Some("ls")		|
-		Some("list")	=> {
+		Some("l" | "ls" | "list")
+		=> {
 			println!("remux list");
 			println!("Pretty-print all tmux sessions.\n");
 
 			println!("usage: remux list");
 		},
 
-		Some("n")		|		//	new
-		Some("new")		=> {
+		Some("n" | "new")
+		=> {
 			println!("remux new");
 			println!("Create a new tmux session.\n");
 
@@ -83,7 +83,7 @@ pub fn help(pargs: &mut Arguments) {
 		},
 
 								//	not found
-		_			=> error::no_help(topic.unwrap())
+		_	=>	error::no_help(topic.unwrap())
 	}
 }
 
@@ -132,11 +132,15 @@ pub fn has(pargs: &mut Arguments) {
 }
 
 pub fn list() {
-	let sessions = util::get_sessions();
+	let sessions = util::get_sessions().unwrap_or(Vec::new());
+
+	if sessions.len() == 0 {
+		println!("no sessions");
+		return;
+	}
 
 	println!("sessions:");
-
-	for session in sessions.unwrap().into_iter() {
+	for session in sessions.into_iter() {
 		let group = session.group.unwrap_or("[untitled]".to_string());
 		let id = session.id.unwrap();
 		let attached = session.attached.unwrap_or(0) > 0;
