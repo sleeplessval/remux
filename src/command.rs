@@ -14,7 +14,7 @@ pub fn help(pargs: &mut Arguments) {
 	let topic = pargs.subcommand().unwrap();
 
 	match topic.as_deref() {
-		None => {		//	program
+		None => {
 			println!("remux v{}", env!("CARGO_PKG_VERSION"));
 			println!("Valerie Wolfe <sleeplessval@gmail.com>");
 			println!("A command wrapper for tmux written in Rust.\n");
@@ -37,14 +37,28 @@ pub fn help(pargs: &mut Arguments) {
 			println!("remux attach");
 			println!("Attach to an existing session.\n");
 
-			println!("usage: remux attach <session> [window]\n");
+			println!("usage: remux attach [flags] <session> [window]\n");
 
 			println!("args:");
-			println!("   <session>      The session to attach to");
-			println!("   [window]       Optionally focus a window in the given session");
+			println!("   <session>          The session to attach to");
+			println!("   [window]           Optionally focus a window in the given session\n");
+
+			println!("flags:");
+			println!("   -d, --detach       Detach other attached clients from the session");
+			println!("   -r, --readonly     Attach the session as read-only");
 		},
 
-								//	has
+		Some("d" | "detach")
+		=> {
+			println!("remux detach");
+			println!("Detach all clients from a session.\n");
+
+			println!("usage: remux detach <session>\n");
+
+			println!("args:");
+			println!("   <session>      The session name to detach clients from");
+		},
+
 		Some("has")
 		=> {
 			println!("remux has");
@@ -88,7 +102,11 @@ pub fn help(pargs: &mut Arguments) {
 }
 
 pub fn attach(pargs: &mut Arguments) {
+	let read_only = pargs.contains(["-r", "--readonly"]);
+	let detach_other = pargs.contains(["-d", "--detach"]);
+
 	let args = pargs.clone().finish();
+
 	let target = args.get(0).unwrap().to_string_lossy();
 	let window = args.get(1);
 
@@ -99,6 +117,7 @@ pub fn attach(pargs: &mut Arguments) {
 			.select_window()
 			.target_window(target)
 			.output().ok();
+		return;
 	}
 
 	let tmux = TmuxCommand::new();
@@ -108,8 +127,30 @@ pub fn attach(pargs: &mut Arguments) {
 		.output().unwrap();
 	if !exists.success() { error::no_target(target.to_string()); }
 
+	let mut attach = tmux.attach_session();
+
+	if read_only { attach.read_only(); }
+	if detach_other { attach.detach_other(); }
+
+	attach
+		.target_session(target)
+		.output().ok();
+}
+
+pub fn detach(pargs: &mut Arguments) {
+	let args = pargs.clone().finish();
+
+	let target = args.get(0).unwrap().to_string_lossy();
+
+	let tmux = TmuxCommand::new();
+	let exists = tmux
+		.has_session()
+		.target_session(target.clone())
+		.output.unwrap();
+	if !exists.success() { error::no_target(target.to_string()); }
+
 	tmux
-		.attach_session()
+		.detach_client()
 		.target_session(target)
 		.output().ok();
 }
@@ -127,7 +168,9 @@ pub fn has(pargs: &mut Arguments) {
 		.output().unwrap();
 
 	let success = exists.success();
+
 	if !quiet { println!("session \"{target}\" {}.", if success { "exists" } else { "does not exist" }); }
+
 	exit( if success { 0 } else { 1 });
 }
 
