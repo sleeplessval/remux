@@ -24,6 +24,7 @@ pub fn help(pargs: &mut Arguments) {
 			println!("Commands:");
 			println!("   help       Show help text for remux or a specific command");
 			println!("   attach     Attach to an existing tmux session");
+			println!("   detach     Detach clients from a tmux session");
 			println!("   has        Check if a tmux session exists");
 			println!("   list       Pretty-print all tmux sessions");
 			println!("   new        Create a new tmux session");
