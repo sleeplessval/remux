@@ -146,7 +146,7 @@ pub fn detach(pargs: &mut Arguments) {
 	let exists = tmux
 		.has_session()
 		.target_session(target.clone())
-		.output.unwrap();
+		.output().unwrap();
 	if !exists.success() { error::no_target(target.to_string()); }
 
 	tmux

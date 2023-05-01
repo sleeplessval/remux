@@ -19,6 +19,9 @@ fn main() {
 		Some("a" | "attach")
 			=>	command::attach(&mut args),
 
+		Some("d" | "detach")
+			=>	command::detach(&mut args),
+
 		Some("has")
 			=>	command::has(&mut args),
 
