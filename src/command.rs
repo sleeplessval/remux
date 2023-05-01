@@ -214,7 +214,9 @@ pub fn new(pargs: &mut Arguments) {
 	let tmux = TmuxCommand::new();
 	let mut new = tmux.new_session();
 
-	if command.is_some() { new.shell_command(command.unwrap().to_string_lossy()) } else { &mut new }
+	if command.is_some() { new.shell_command(command.unwrap().to_string_lossy()); }
+
+	new
 		.group_name(title)
 		.attach()
 		.start_directory(target_dir.unwrap_or(current_dir().unwrap().to_string_lossy().to_string()))
