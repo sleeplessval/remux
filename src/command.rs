@@ -118,7 +118,6 @@ pub fn attach(pargs: &mut Arguments) {
 			.select_window()
 			.target_window(target)
 			.output().ok();
-		return;
 	}
 
 	let tmux = TmuxCommand::new();
@@ -192,7 +191,7 @@ pub fn list() {
 		println!(
 			"  {group} ({bold}{blue}{id}{reset}) {bold}{green}{attach_sym}{reset}",
 			//	values
-			attach_sym = if attached { "" } else {""},
+			attach_sym = if attached { "󰌹" } else {""},
 			//	formatting
 			bold = style::Bold,
 			blue = color::Fg(color::Blue),
