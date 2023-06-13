@@ -33,3 +33,5 @@ remux d foo
 
 ```
 
+ReMux is built using the [tmux_interface](https://crates.io/crates/tmux_interface) and [pico_args](https://crates.io/crates/pico_args) crates.
+
