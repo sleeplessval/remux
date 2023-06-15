@@ -1,3 +1,7 @@
+use std::{
+	env::var,
+	process::exit
+};
 
 use tmux_interface::{
 	Session, Sessions,
@@ -11,5 +15,13 @@ pub fn get_sessions() -> Option<Vec<Session>> {
 	if sessions.is_none() { return None; }
 
 	Some(sessions.unwrap().0)
+}
+
+pub fn prevent_nest() {
+	let tmux = var("TMUX").ok();
+	if tmux.is_some() && tmux.unwrap() != "" {
+		println!("Sessions should be nested with care; unset TMUX to allow.");
+		exit(1);
+	}
 }
 

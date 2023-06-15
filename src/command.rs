@@ -103,6 +103,8 @@ pub fn help(pargs: &mut Arguments) {
 }
 
 pub fn attach(pargs: &mut Arguments) {
+	util::prevent_nest();
+
 	let read_only = pargs.contains(["-r", "--readonly"]);
 	let detach_other = pargs.contains(["-d", "--detach"]);
 
@@ -203,6 +205,8 @@ pub fn list() {
 
 pub fn new(pargs: &mut Arguments) {
 	use pico_args::Error;
+
+	util::prevent_nest();
 
 	let target_dir: Result<String, Error> = pargs.value_from_str(["-t", "--target"]);
 
