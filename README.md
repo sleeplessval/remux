@@ -1,6 +1,8 @@
 
 # ReMux: a friendlier tmux wrapper
 
+Pronounced \[ ɹ̠i məks \], like "remix."
+
 A tmux wrapper and command shortener written in Rust. ReMux's
 goal is to wrap tmux commands to be both shorter, and oriented
 around session names instead of session IDs.
