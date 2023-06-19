@@ -8,6 +8,11 @@ mod util;
 fn main() {
 	let mut args = Arguments::from_env();
 
+	if args.contains(["-h", "--help"]) {
+		command::help(&mut args);
+		return;
+	}
+
 	let subcommand = args.subcommand().unwrap();
 
 	match subcommand.as_deref() {
