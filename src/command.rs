@@ -105,14 +105,17 @@ pub fn help(pargs: &mut Arguments) {
 pub fn attach(pargs: &mut Arguments) {
 	util::prevent_nest();
 
+	//	get optional flags
 	let read_only = pargs.contains(["-r", "--readonly"]);
 	let detach_other = pargs.contains(["-d", "--detach"]);
 
+	//	get target and error out if not provided
 	let args = pargs.clone().finish();
-
+	if args.len() < 1 { error::missing_target(); }
 	let target = args.get(0).unwrap().to_string_lossy();
 	let window = args.get(1);
 
+	//	focus window if provided
 	if window.is_some() {
 		let target = window.unwrap().to_string_lossy();
 		let tmux = TmuxCommand::new();
@@ -122,6 +125,7 @@ pub fn attach(pargs: &mut Arguments) {
 			.output().ok();
 	}
 
+	//	command
 	let tmux = TmuxCommand::new();
 	let exists = tmux
 		.has_session()
@@ -131,6 +135,7 @@ pub fn attach(pargs: &mut Arguments) {
 
 	let mut attach = tmux.attach_session();
 
+	//	handle optional flags
 	if read_only { attach.read_only(); }
 	if detach_other { attach.detach_other(); }
 
@@ -140,10 +145,12 @@ pub fn attach(pargs: &mut Arguments) {
 }
 
 pub fn detach(pargs: &mut Arguments) {
+	//	get target and error out if not provided
 	let args = pargs.clone().finish();
-
+	if args.len() < 1 { error::missing_target(); }
 	let target = args.get(0).unwrap().to_string_lossy();
 
+	//	command
 	let tmux = TmuxCommand::new();
 	let exists = tmux
 		.has_session()
@@ -158,11 +165,15 @@ pub fn detach(pargs: &mut Arguments) {
 }
 
 pub fn has(pargs: &mut Arguments) {
+	//	get optional flag
 	let quiet = pargs.contains(["-q", "--quiet"]);
 
+	//	get target and error out if not provided
 	let args = pargs.clone().finish();
+	if args.len() < 1 { error::missing_target(); }
 	let target = args.get(0).unwrap().to_string_lossy();
 
+	//	command
 	let tmux = TmuxCommand::new();
 	let exists = tmux
 		.has_session()
@@ -171,19 +182,25 @@ pub fn has(pargs: &mut Arguments) {
 
 	let success = exists.success();
 
+	//	handle optional flag
+	//	inverted; print text if NOT quiet
 	if !quiet { println!("session \"{target}\" {}.", if success { "exists" } else { "does not exist" }); }
 
+	//	exit codes for scripts to use
 	exit( if success { 0 } else { 1 });
 }
 
 pub fn list() {
+	//	get session list
 	let sessions = util::get_sessions().unwrap_or(Vec::new());
 
+	//	handle empty case
 	if sessions.len() == 0 {
 		println!("no sessions");
 		return;
 	}
 
+	//	iterate over pretty print
 	println!("sessions:");
 	for session in sessions.into_iter() {
 		let group = session.group.unwrap_or("[untitled]".to_string());
@@ -206,11 +223,17 @@ pub fn list() {
 pub fn new(pargs: &mut Arguments) {
 	use pico_args::Error;
 
+	//	show nest message
 	util::prevent_nest();
 
+	//	get optional flag
 	let target_dir: Result<String, Error> = pargs.value_from_str(["-t", "--target"]);
 
+	//	get target and error out if not provided
 	let args = pargs.clone().finish();
+	if args.len() < 1 { error::missing_target(); }
+
+	//	get target session and optional command
 	let title = args.get(0).unwrap().to_string_lossy();
 	let command = args.get(1);
 

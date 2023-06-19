@@ -8,6 +8,7 @@ use tmux_interface::{
 	variables::session::session::SESSION_ALL
 };
 
+///	return a Vec of all sessions or None
 pub fn get_sessions() -> Option<Vec<Session>> {
 	let i_sessions = Sessions::get(SESSION_ALL);
 	if i_sessions.is_err() { return None; }
@@ -17,6 +18,7 @@ pub fn get_sessions() -> Option<Vec<Session>> {
 	Some(sessions.unwrap().0)
 }
 
+///	show the tmux nest text if env var is not unset
 pub fn prevent_nest() {
 	let tmux = var("TMUX").ok();
 	if tmux.is_some() && tmux.unwrap() != "" {

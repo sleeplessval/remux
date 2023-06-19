@@ -10,8 +10,6 @@ fn main() {
 
 	let subcommand = args.subcommand().unwrap();
 
-	//let tmuxvar = var("TMUX");
-
 	match subcommand.as_deref() {
 		Some("h" | "help")
 			=>	command::help(&mut args),
