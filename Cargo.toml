@@ -7,14 +7,15 @@ edition = "2021"
 
 [dependencies]
 pico-args = { version = "0.5.0", features = [ "combined-flags", "eq-separator" ] }
-ratatui = { version = "0.20.1", features = [ "termion" ] }
+#ratatui = { version = "0.20.1", features = [ "termion" ] }
 termion = "2.0.1"
 tmux_interface = "0.2.1"
 
 [profile.release]
-opt-level = "s"
+opt-level = 's'
 lto = true
 debug = false
 codegen-units = 1
 panic = "abort"
+strip = "debuginfo"
 
