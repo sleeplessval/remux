@@ -30,3 +30,9 @@ pub fn missing_target() {
 	exit(4);
 }
 
+///	user declined nesting dialog
+pub fn nest_declined() {
+	println!("remux: session nesting declined by user");
+	exit(5);
+}
+

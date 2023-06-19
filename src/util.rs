@@ -1,5 +1,10 @@
 use std::{
-	env::var,
+	env::{ set_var, var },
+	io::{
+		self,
+		
+		Read, Write
+	},
 	process::exit
 };
 
@@ -7,6 +12,8 @@ use tmux_interface::{
 	Session, Sessions,
 	variables::session::session::SESSION_ALL
 };
+
+use crate::error;
 
 ///	return a Vec of all sessions or None
 pub fn get_sessions() -> Option<Vec<Session>> {
@@ -22,8 +29,18 @@ pub fn get_sessions() -> Option<Vec<Session>> {
 pub fn prevent_nest() {
 	let tmux = var("TMUX").ok();
 	if tmux.is_some() && tmux.unwrap() != "" {
-		println!("Sessions should be nested with care; unset TMUX to allow.");
-		exit(1);
+		//	ask the user if they want to nest (default: no)
+		print!("Are you sure you want to nest sessions? (y/N) ");
+		let _ = io::stdout().flush();
+
+		let mut input = [0];
+		let _ = io::stdin().read(&mut input);
+		match input[0] as char {
+			'y' | 'Y'
+				=> {},
+			_ => error::nest_declined()
+		}
+		set_var("TMUX", "");
 	}
 }
 
