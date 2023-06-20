@@ -35,5 +35,9 @@ remux d foo
 
 ```
 
-ReMux is built using the [tmux_interface](https://crates.io/crates/tmux_interface) and [pico_args](https://crates.io/crates/pico_args) crates.
+## Libraries
+
+- [pico-args](https://crates.io/crates/pico_args) — argument parsing
+- [tmux_interface](https://crates.io/crates/tmux_interface) — tmux communication
+- [termion](https://crates.io/crates/termion) — ANSI formatting
 
