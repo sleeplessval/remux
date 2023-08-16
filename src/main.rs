@@ -1,3 +1,4 @@
+use std::io::{ stdout, IsTerminal };
 
 use pico_args::Arguments;
 
@@ -12,6 +13,8 @@ fn main() {
 		command::help(&mut args);
 		return;
 	}
+
+	if !stdout().is_terminal() { error::not_terminal(); }
 
 	let subcommand = args.subcommand().unwrap();
 

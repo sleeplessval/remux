@@ -30,3 +30,8 @@ pub fn missing_target() {
 	exit(4);
 }
 
+pub fn not_terminal() {
+	println!("remux: not running from a terminal");
+	exit(5);
+}
+
