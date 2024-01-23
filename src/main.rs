@@ -4,13 +4,16 @@ use pico_args::Arguments;
 
 mod command;
 mod error;
+mod help;
 mod util;
+
+use help::help;
 
 fn main() {
 	let mut args = Arguments::from_env();
 
 	if args.contains(["-h", "--help"]) {
-		command::help(&mut args);
+		help(&mut args);
 		return;
 	}
 
@@ -20,7 +23,7 @@ fn main() {
 
 	match subcommand.as_deref() {
 		Some("h" | "help")
-			=>	command::help(&mut args),
+			=>	help(&mut args),
 
 		Some("a" | "attach")
 			=>	command::attach(&mut args),
