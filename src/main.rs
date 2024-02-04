@@ -7,13 +7,21 @@ mod error;
 mod help;
 mod util;
 
-use help::help;
+use help::{ help, version };
+
+static VERSION: &str = env!("CARGO_PKG_VERSION");
 
 fn main() {
 	let mut args = Arguments::from_env();
 
+
 	if args.contains(["-h", "--help"]) {
 		help(&mut args);
+		return;
+	}
+
+	if args.contains(["-v", "--version"]) {
+		version();
 		return;
 	}
 

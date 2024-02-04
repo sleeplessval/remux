@@ -3,13 +3,14 @@ use std::process::exit;
 use pico_args::Arguments;
 
 use crate::error;
+use crate::VERSION;
 
 pub fn help(pargs: &mut Arguments) {
 	let topic = pargs.subcommand().unwrap();
 
 	match topic.as_deref() {
 		None => {
-			println!("remux v{}", env!("CARGO_PKG_VERSION"));
+			println!("remux v{VERSION}");
 			println!("Valerie Wolfe <sleeplessval@gmail.com>");
 			println!("A command wrapper for tmux written in Rust.\n");
 
@@ -94,5 +95,9 @@ pub fn help(pargs: &mut Arguments) {
 								//	not found
 		_	=>	error::no_help(topic.unwrap())
 	}
+}
+
+pub fn version() {
+	println!("remux v{VERSION}");
 }
 
