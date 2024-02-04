@@ -22,7 +22,7 @@ pub fn get_sessions() -> Option<Vec<Session>> {
 pub fn prevent_nest() {
 	let tmux = var("TMUX").ok();
 	if tmux.is_some() && tmux.unwrap() != "" {
-		println!("Sessions should be nested with care; unset TMUX to allow.");
+		println!("Sessions should be nested with care; unset TMUX or use the '-n' flag to allow.");
 		exit(1);
 	}
 }

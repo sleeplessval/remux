@@ -30,8 +30,15 @@ pub fn missing_target() {
 	exit(4);
 }
 
+///	non-terminal environment prevention; code 5
 pub fn not_terminal() {
 	println!("remux: not running from a terminal");
 	exit(5);
+}
+
+///	tried to nest while not in a session; code 6
+pub fn not_nesting() {
+	println!("remux: cannot use nesting flag outside a TMUX session");
+	exit(6);
 }
 
