@@ -4,6 +4,7 @@ version = "0.1.3"
 edition = "2021"
 authors = [ "Valerie Wolfe <sleeplessval@gmail.com>" ]
 description = "A friendly command shortener for tmux"
+homepage = "https://git.vwolfe.io/valerie/remux"
 repository = "https://git.vwolfe.io/valerie/remux"
 license = "MIT"
 
