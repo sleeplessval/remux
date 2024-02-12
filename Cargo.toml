@@ -1,13 +1,16 @@
 [package]
 name = "remux"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2021"
+authors = [ "Valerie Wolfe <sleeplessval@gmail.com>" ]
+description = "A friendly command shortener for tmux"
+repository = "https://git.vwolfe.io/valerie/remux"
+license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 pico-args = { version = "0.5.0", features = [ "combined-flags", "eq-separator" ] }
-#ratatui = { version = "0.20.1", features = [ "termion" ] }
 termion = "2.0.1"
 tmux_interface = "0.2.1"
 
@@ -17,5 +20,5 @@ lto = true
 debug = false
 codegen-units = 1
 panic = "abort"
-strip = "debuginfo"
+strip = "symbols"
 

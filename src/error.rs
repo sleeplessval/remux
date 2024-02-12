@@ -11,12 +11,6 @@ pub fn no_target(target: String) {
 	println!("remux: no session \"{target}\" exists");
 	exit(2);
 }
-///	no sessions exist; code 2
-pub fn no_sessions() {
-	println!("remux: no sessions running");
-	println!("use 'remux n <title>' to create a new session");
-	exit(2);
-}
 
 ///	help topic doesn't exist; code 3
 pub fn no_help(topic: String) {

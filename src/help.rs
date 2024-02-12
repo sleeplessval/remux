@@ -1,4 +1,3 @@
-use std::process::exit;
 
 use pico_args::Arguments;
 
