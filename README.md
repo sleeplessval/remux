@@ -33,6 +33,12 @@ remux has foo
 tmux detach-client -t foo
 remux d foo
 
+#	nesting sessions with '-n' flag
+TMUX='' tmux a -t foo
+remux a -n foo
+TMUX='' tmux new-session -t foo
+remux n -n foo
+
 ```
 
 ## Libraries

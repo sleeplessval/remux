@@ -40,6 +40,7 @@ pub fn help(pargs: &mut Arguments) {
 
 			println!("flags:");
 			println!("   -d, --detach       Detach other attached clients from the session");
+			println!("   -n, --nest         Attach the session inside another session.");
 			println!("   -r, --readonly     Attach the session as read-only");
 		},
 
@@ -88,6 +89,7 @@ pub fn help(pargs: &mut Arguments) {
 			println!("   [command]              The shell command to run\n");
 
 			println!("flags:");
+			println!("   -n, --nest             Create the session inside another session.");
 			println!("   -t, --target <dir>     Sets the target directory for the new session.");
 		},
 
