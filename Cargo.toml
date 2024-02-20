@@ -8,7 +8,9 @@ homepage = "https://git.vwolfe.io/valerie/remux"
 repository = "https://git.vwolfe.io/valerie/remux"
 license = "MIT"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "remux"
+path = "src/main.rs"
 
 [dependencies]
 pico-args = { version = "0.5.0", features = [ "combined-flags", "eq-separator" ] }
