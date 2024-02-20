@@ -41,6 +41,28 @@ remux n -n foo
 
 ```
 
+## Dependencies
+
+ReMux depends on [tmux](https://github.com/tmux/tmux).
+
+## Installation
+
+### From Binary
+
+Copy the compiled binary from the [releases page](https://git.vwolfe.io/valerie/remux/releases)
+to a directory in `$PATH`, such as `/usr/bin/`.
+
+### From Source
+
+Compile using cargo with the command `cargo build --release` and copy the file
+from `target/release/` to a directory in `$PATH`, such as `/usr/bin/`.
+
+### Arch Linux (AUR)
+
+Install the package from the [`remux` AUR Package](https://aur.archlinux.org/packages/remux),
+either using an AUR package manager, or by cloning the [AUR Repository](https://aur.archlinux.org/remux.git)
+and running the command `makepkg --install`.
+
 ## Libraries
 
 - [pico-args](https://crates.io/crates/pico_args) — argument parsing
