@@ -47,21 +47,34 @@ ReMux depends on [tmux](https://github.com/tmux/tmux).
 
 ## Installation
 
-### From Binary
+### Manual Install
 
-Copy the compiled binary from the [releases page](https://git.vwolfe.io/valerie/remux/releases)
-to a directory in `$PATH`, such as `/usr/bin/`.
+<details>
+<summary>Release Binary</summary>
+Copy the compiled binary from the <a href="https://git.vwolfe.io/valerie/remux/releases">releases page</a>
+to a directory in <code>$PATH</code>, such as <code>/usr/bin/</code>.
+</details>
 
-### From Source
+<details>
+<summary>Compile from Source</summary>
+Compile using cargo with the command <code>cargo build --release</code> and copy
+the file from <code>target/release/</code> to a directory in <code>$PATH</code>,
+such as <code>/usr/bin/</code>.
+</details>
 
-Compile using cargo with the command `cargo build --release` and copy the file
-from `target/release/` to a directory in `$PATH`, such as `/usr/bin/`.
+<details>
+<summary>makepkg (AUR)</summary>
+Clone the <a href="https://aur.archlinux.org/remux.git">AUR Repository</a> and
+run the command <code>makepkg --install</code>.
+</details>
 
-### Arch Linux (AUR)
+### Package Managers
 
-Install the package from the [`remux` AUR Package](https://aur.archlinux.org/packages/remux),
-either using an AUR package manager, or by cloning the [AUR Repository](https://aur.archlinux.org/remux.git)
-and running the command `makepkg --install`.
+<details>
+<summary>Arch Linux (AUR): <code>remux</code></summary>
+Install the package from the <a href="https://aur.archlinux.org/packages/remux"><code>remux</code> AUR Package</a>
+using an AUR package manager such as <a href="https://github.com/Morganamilo/paru"><code>paru</code></code>.
+</details>
 
 ## Libraries
 
