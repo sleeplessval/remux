@@ -73,7 +73,7 @@ run the command <code>makepkg --install</code>.
 <details>
 <summary>Arch Linux (AUR): <code>remux</code></summary>
 Install the package from the <a href="https://aur.archlinux.org/packages/remux"><code>remux</code> AUR Package</a>
-using an AUR package manager such as <a href="https://github.com/Morganamilo/paru"><code>paru</code></code>.
+using an AUR package manager such as <a href="https://github.com/Morganamilo/paru"><code>paru</code></a>.
 </details>
 
 ## Libraries
