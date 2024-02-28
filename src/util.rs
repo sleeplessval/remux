@@ -38,13 +38,13 @@ pub fn session_exists(target: String) -> bool {
 }
 
 ///	recursively attempt to find a git root directory
-fn repo_root(path: PathBuf) -> Option<PathBuf> {
+pub fn repo_root(path: PathBuf) -> Option<PathBuf> {
 	//	if .git dir is found, return
 	if path.join(".git").exists() { return Some(path); }
 
 	//	otherwise, attempt to traverse
 	let parent = path.parent();
-	if let Some(parent) = parent { git_traverse(parent.to_path_buf()) }
+	if let Some(parent) = parent { repo_root(parent.to_path_buf()) }
 	else { None }
 }
 

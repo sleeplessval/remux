@@ -127,10 +127,18 @@ pub fn new(pargs: &mut Arguments) {
 
 	//	get target and error out if not provided
 	let args = pargs.clone().finish();
-	if args.len() < 1 { error::missing_target(); }
 
-	//	get target session and optional command
-	let title = args.get(0).unwrap().to_string_lossy();
+	//	collect name and command arguments
+	let title: String;
+	if args.len() < 1 {
+		//	missing name will attempt to fall back to repository
+		let repo = util::repo_root(current_dir().unwrap());
+		if repo.is_none() { error::missing_target(); }
+
+		title = repo.unwrap().file_name().unwrap().to_string_lossy().to_string();
+	} else {
+		title = args.get(0).unwrap().to_string_lossy().to_string();
+	}
 	let command = args.get(1);
 
 	//	build command
