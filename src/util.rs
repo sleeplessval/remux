@@ -1,5 +1,6 @@
 use std::{
 	env::var,
+	path::PathBuf,
 	process::exit
 };
 
@@ -34,5 +35,16 @@ pub fn session_exists(target: String) -> bool {
 		.target_session(target)
 		.output().unwrap()
 		.success()
+}
+
+///	recursively attempt to find a git root directory
+fn repo_root(path: PathBuf) -> Option<PathBuf> {
+	//	if .git dir is found, return
+	if path.join(".git").exists() { return Some(path); }
+
+	//	otherwise, attempt to traverse
+	let parent = path.parent();
+	if let Some(parent) = parent { git_traverse(parent.to_path_buf()) }
+	else { None }
 }
 
