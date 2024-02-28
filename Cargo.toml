@@ -1,6 +1,6 @@
 [package]
 name = "remux"
-version = "0.1.3b"
+version = "0.1.4"
 edition = "2021"
 authors = [ "Valerie Wolfe <sleeplessval@gmail.com>" ]
 description = "A friendly command shortener for tmux"

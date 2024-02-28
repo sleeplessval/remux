@@ -26,27 +26,24 @@ pub fn attach(pargs: &mut Arguments) {
 	//	focus window if provided
 	if window.is_some() {
 		let target = window.unwrap().to_string_lossy();
-		let tmux = TmuxCommand::new();
-		tmux
+		TmuxCommand::new()
 			.select_window()
 			.target_window(target)
 			.output().ok();
 	}
 
-	//	command
-	let tmux = TmuxCommand::new();
-	let exists = tmux
-		.has_session()
-		.target_session(target.clone())
-		.output().unwrap();
-	if !exists.success() { error::no_target(target.to_string()); }
+	//	make sure the target session exists
+	let exists = util::session_exists(target.to_string());
+	if !exists { error::no_target(target.to_string()); }
 
-	let mut attach = tmux.attach_session();
+	//	build command
+	let mut attach = TmuxCommand::new().attach_session();
 
 	//	handle optional flags
 	if read_only { attach.read_only(); }
 	if detach_other { attach.detach_other(); }
 
+	//	run command
 	attach
 		.target_session(target)
 		.output().ok();
@@ -58,15 +55,12 @@ pub fn detach(pargs: &mut Arguments) {
 	if args.len() < 1 { error::missing_target(); }
 	let target = args.get(0).unwrap().to_string_lossy();
 
-	//	command
-	let tmux = TmuxCommand::new();
-	let exists = tmux
-		.has_session()
-		.target_session(target.clone())
-		.output().unwrap();
-	if !exists.success() { error::no_target(target.to_string()); }
+	//	make sure the target session exists
+	let exists = util::session_exists(target.to_string());
+	if !exists { error::no_target(target.to_string()); }
 
-	tmux
+	//	build command and run
+	TmuxCommand::new()
 		.detach_client()
 		.target_session(target)
 		.output().ok();
@@ -81,14 +75,8 @@ pub fn has(pargs: &mut Arguments) {
 	if args.len() < 1 { error::missing_target(); }
 	let target = args.get(0).unwrap().to_string_lossy();
 
-	//	command
-	let tmux = TmuxCommand::new();
-	let exists = tmux
-		.has_session()
-		.target_session(target.clone())
-		.output().unwrap();
-
-	let success = exists.success();
+	//	run command
+	let success = util::session_exists(target.to_string());
 
 	//	handle optional flag
 	//	inverted; print text if NOT quiet
@@ -145,11 +133,13 @@ pub fn new(pargs: &mut Arguments) {
 	let title = args.get(0).unwrap().to_string_lossy();
 	let command = args.get(1);
 
-	let tmux = TmuxCommand::new();
-	let mut new = tmux.new_session();
+	//	build command
+	let mut new = TmuxCommand::new().new_session();
 
+	//	handle shell command argument
 	if command.is_some() { new.shell_command(command.unwrap().to_string_lossy()); }
 
+	//	run command
 	new
 		.group_name(title)
 		.attach()

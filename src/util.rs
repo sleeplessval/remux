@@ -4,7 +4,7 @@ use std::{
 };
 
 use tmux_interface::{
-	Session, Sessions,
+	Session, Sessions, TmuxCommand,
 	variables::session::session::SESSION_ALL
 };
 
@@ -25,5 +25,14 @@ pub fn prevent_nest() {
 		println!("Sessions should be nested with care; unset TMUX or use the '-n' flag to allow.");
 		exit(1);
 	}
+}
+
+///	check whether a target session exists
+pub fn session_exists(target: String) -> bool {
+	TmuxCommand::new()
+		.has_session()
+		.target_session(target)
+		.output().unwrap()
+		.success()
 }
 
