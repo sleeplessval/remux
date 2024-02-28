@@ -29,10 +29,10 @@ pub fn prevent_nest() {
 }
 
 ///	check whether a target session exists
-pub fn session_exists(target: String) -> bool {
+pub fn session_exists<S: Into<String>>(target: S) -> bool {
 	TmuxCommand::new()
 		.has_session()
-		.target_session(target)
+		.target_session(target.into())
 		.output().unwrap()
 		.success()
 }

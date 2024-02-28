@@ -7,7 +7,8 @@ pub fn no_subcommand(subcommand: String) {
 }
 
 ///	target session not found; code 2
-pub fn no_target(target: String) {
+pub fn no_target<S: Into<String>>(target: S) {
+	let target = target.into();
 	println!("remux: no session \"{target}\" exists");
 	exit(2);
 }

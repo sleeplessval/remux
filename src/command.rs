@@ -1,5 +1,6 @@
 use std::{
 	env::current_dir,
+	ffi::OsString,
 	process::exit
 };
 
@@ -17,11 +18,22 @@ pub fn attach(pargs: &mut Arguments) {
 	let read_only = pargs.contains(["-r", "--readonly"]);
 	let detach_other = pargs.contains(["-d", "--detach"]);
 
-	//	get target and error out if not provided
+	//	collect target and window arguments
 	let args = pargs.clone().finish();
-	if args.len() < 1 { error::missing_target(); }
-	let target = args.get(0).unwrap().to_string_lossy();
-	let window = args.get(1);
+	let target: String;
+	let window: Option<&OsString>;
+	if args.len() < 1 {
+		//	missing name will attempt to fall back to repository
+		let repo = util::repo_root(current_dir().unwrap());
+		if repo.is_none() { error::missing_target(); }
+
+		target = repo.unwrap().file_name().unwrap().to_string_lossy().to_string();
+		if !util::session_exists(target.clone()) { error::missing_target(); }
+		window = None;
+	} else {
+		target = args.get(0).unwrap().to_string_lossy().to_string();
+		window = args.get(1);
+	}
 
 	//	focus window if provided
 	if window.is_some() {
@@ -33,8 +45,8 @@ pub fn attach(pargs: &mut Arguments) {
 	}
 
 	//	make sure the target session exists
-	let exists = util::session_exists(target.to_string());
-	if !exists { error::no_target(target.to_string()); }
+	let exists = util::session_exists(target.clone());
+	if !exists { error::no_target(target.clone()); }
 
 	//	build command
 	let mut attach = TmuxCommand::new().attach_session();
@@ -56,8 +68,8 @@ pub fn detach(pargs: &mut Arguments) {
 	let target = args.get(0).unwrap().to_string_lossy();
 
 	//	make sure the target session exists
-	let exists = util::session_exists(target.to_string());
-	if !exists { error::no_target(target.to_string()); }
+	let exists = util::session_exists(target.clone());
+	if !exists { error::no_target(target.clone()); }
 
 	//	build command and run
 	TmuxCommand::new()
@@ -70,13 +82,21 @@ pub fn has(pargs: &mut Arguments) {
 	//	get optional flag
 	let quiet = pargs.contains(["-q", "--quiet"]);
 
-	//	get target and error out if not provided
+	//	collect target argument
 	let args = pargs.clone().finish();
-	if args.len() < 1 { error::missing_target(); }
-	let target = args.get(0).unwrap().to_string_lossy();
+	let target: String;
+	if args.len() < 1 {
+		//	missing name will attempt to fall back to repository
+		let repo = util::repo_root(current_dir().unwrap());
+		if repo.is_none() { error::missing_target(); }
+
+		target = repo.unwrap().file_name().unwrap().to_string_lossy().to_string();
+	} else {
+		target = args.get(0).unwrap().to_string_lossy().to_string();
+	}
 
 	//	run command
-	let success = util::session_exists(target.to_string());
+	let success = util::session_exists(target.clone());
 
 	//	handle optional flag
 	//	inverted; print text if NOT quiet
@@ -130,16 +150,18 @@ pub fn new(pargs: &mut Arguments) {
 
 	//	collect name and command arguments
 	let title: String;
+	let command: Option<&OsString>;
 	if args.len() < 1 {
 		//	missing name will attempt to fall back to repository
 		let repo = util::repo_root(current_dir().unwrap());
 		if repo.is_none() { error::missing_target(); }
 
 		title = repo.unwrap().file_name().unwrap().to_string_lossy().to_string();
+		command = None;
 	} else {
 		title = args.get(0).unwrap().to_string_lossy().to_string();
+		command = args.get(1);
 	}
-	let command = args.get(1);
 
 	//	build command
 	let mut new = TmuxCommand::new().new_session();
