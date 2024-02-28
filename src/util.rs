@@ -1,5 +1,5 @@
 use std::{
-	env::var,
+	env::{ current_dir, var },
 	path::PathBuf,
 	process::exit
 };
@@ -8,6 +8,8 @@ use tmux_interface::{
 	Session, Sessions, TmuxCommand,
 	variables::session::session::SESSION_ALL
 };
+
+use crate::error;
 
 ///	return a Vec of all sessions or None
 pub fn get_sessions() -> Option<Vec<Session>> {
@@ -35,6 +37,15 @@ pub fn session_exists<S: Into<String>>(target: S) -> bool {
 		.target_session(target.into())
 		.output().unwrap()
 		.success()
+}
+
+///	attempt to return the repo name or exit
+pub fn repo_fallback() -> String {
+	let repo = repo_root(current_dir().unwrap());
+	if repo.is_none() { error::missing_target(); }
+
+	let target = repo.unwrap().file_name().unwrap().to_string_lossy().to_string();
+	target
 }
 
 ///	recursively attempt to find a git root directory

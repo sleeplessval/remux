@@ -24,10 +24,7 @@ pub fn attach(pargs: &mut Arguments) {
 	let window: Option<&OsString>;
 	if args.len() < 1 {
 		//	missing name will attempt to fall back to repository
-		let repo = util::repo_root(current_dir().unwrap());
-		if repo.is_none() { error::missing_target(); }
-
-		target = repo.unwrap().file_name().unwrap().to_string_lossy().to_string();
+		target = util::repo_fallback();
 		if !util::session_exists(target.clone()) { error::missing_target(); }
 		window = None;
 	} else {
@@ -87,10 +84,7 @@ pub fn has(pargs: &mut Arguments) {
 	let target: String;
 	if args.len() < 1 {
 		//	missing name will attempt to fall back to repository
-		let repo = util::repo_root(current_dir().unwrap());
-		if repo.is_none() { error::missing_target(); }
-
-		target = repo.unwrap().file_name().unwrap().to_string_lossy().to_string();
+		target = util::repo_fallback();
 	} else {
 		target = args.get(0).unwrap().to_string_lossy().to_string();
 	}
@@ -153,10 +147,7 @@ pub fn new(pargs: &mut Arguments) {
 	let command: Option<&OsString>;
 	if args.len() < 1 {
 		//	missing name will attempt to fall back to repository
-		let repo = util::repo_root(current_dir().unwrap());
-		if repo.is_none() { error::missing_target(); }
-
-		title = repo.unwrap().file_name().unwrap().to_string_lossy().to_string();
+		title = util::repo_fallback();
 		command = None;
 	} else {
 		title = args.get(0).unwrap().to_string_lossy().to_string();
