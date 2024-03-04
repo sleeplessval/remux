@@ -8,90 +8,87 @@ pub fn help(pargs: &mut Arguments) {
 	let topic = pargs.subcommand().unwrap();
 
 	match topic.as_deref() {
-		None => {
-			println!("remux v{VERSION}");
-			println!("Valerie Wolfe <sleeplessval@gmail.com>");
-			println!("A command wrapper for tmux written in Rust.\n");
+		None =>
+println!("remux v{VERSION}
+Valerie Wolfe <sleeplessval@gmail.com>
+A command wrapper for tmux written in Rust.
 
-			println!("usage: remux <command> [<args>]\n");
+usage: remux <command> [<args>]
 
-			println!("Commands:");
-			println!("   help       Show help text for remux or a specific command");
-			println!("   attach     Attach to an existing tmux session");
-			println!("   detach     Detach clients from a tmux session");
-			println!("   has        Check if a tmux session exists");
-			println!("   list       Pretty-print all tmux sessions");
-			println!("   new        Create a new tmux session");
+commands:
+   help       Show help text for remux or a specific command
+   attach     Attach to an existing tmux session
+   detach     Detach clients from a tmux session
+   has        Check if a tmux session exists
+   list       Pretty-print all tmux sessions
+   new        Create a new tmux session
 
-			println!("\nUse 'remux help <command>' to see detailed help text for each command.");
-		},
-
+Use 'remux help <command>' to see detailed help text for each command."),
 
 		Some("a" | "attach")
-		=> {
-			println!("remux attach");
-			println!("Attach to an existing session.\n");
+		=>
+println!("remux attach
+Attach to an existing session.
 
-			println!("usage: remux attach [flags] <session> [window]\n");
+usage: remux attach [flags] <session> [window]
+       remux a [flags] <session> [window]
 
-			println!("args:");
-			println!("   <session>          The session to attach to");
-			println!("   [window]           Optionally focus a window in the given session\n");
+args:
+   <session>          The session to attach to
+   [window]           Optionally focus a window in the given session
 
-			println!("flags:");
-			println!("   -d, --detach       Detach other attached clients from the session");
-			println!("   -n, --nest         Attach the session inside another session.");
-			println!("   -r, --readonly     Attach the session as read-only");
-		},
+flags:
+   -d, --detach       Detach other attached clients from the session
+   -n, --nest         Attach the session inside another session.
+   -r, --readonly     Attach the session as read-only"),
 
 		Some("d" | "detach")
-		=> {
-			println!("remux detach");
-			println!("Detach all clients from a session.\n");
+		=>
+println!("remux detach
+Detach all clients from a session.
 
-			println!("usage: remux detach <session>\n");
+usage: remux detach <session>
+       remux d <session>
 
-			println!("args:");
-			println!("   <session>      The session name to detach clients from");
-		},
+args:
+   <session>      The session name to detach clients from"),
 
 		Some("has")
-		=> {
-			println!("remux has");
-			println!("Check if the target session exists.\n");
+		=>
+println!("remux has
+Check if the target session exists.
 
-			println!("usage: remux has [flags] <session>\n");
+usage: remux has [flags] <session>
 
-			println!("args:");
-			println!("   <session>      The session to check for\n");
+args:
+   <session>      The session to check for
 
-			println!("flags:");
-			println!("   -q, --quiet    Display no text; exit code only");
-		},
+flags:
+   -q, --quiet    Display no text; exit code only"),
 
 		Some("l" | "ls" | "list")
-		=> {
-			println!("remux list");
-			println!("Pretty-print all tmux sessions.\n");
+		=>
+println!("remux list
+Pretty-print all tmux sessions.
 
-			println!("usage: remux list");
-		},
+usage: remux list
+       remux ls
+       remux l"),
 
 		Some("n" | "new")
-		=> {
-			println!("remux new");
-			println!("Create a new tmux session.\n");
+		=>
+println!("remux new
+Create a new tmux session.
 
-			println!("usage: remux new [flags] <title> [command]\n");
+usage: remux new [flags] <title> [command]
 
-			println!("args:");
-			println!("   <title>                The title of the new session");
-			println!("   [command]              The shell command to run\n");
+args:
+   <title>                The title of the new session
+   [command]              The shell command to run
 
-			println!("flags:");
-			println!("   -n, --nest             Create the session inside another session.");
-			println!("   -t, --target <dir>     Sets the target directory for the new session.");
-		},
+flags:
+   -n, --nest             Create the session inside another session.
+   -t, --target <dir>     Sets the target directory for the new session."),
 
 								//	not found
 		_	=>	error::no_help(topic.unwrap())
