@@ -76,6 +76,11 @@ Install the package from the <a href="https://aur.archlinux.org/packages/remux">
 using an AUR package manager such as <a href="https://github.com/Morganamilo/paru"><code>paru</code></a>.
 </details>
 
+<details>
+<summary>Cargo: <code>tmux-remux</code></summary>
+Install the package using Cargo with the command <code>cargo install tmux-remux</code>.
+</details>
+
 ## Libraries
 
 - [pico-args](https://crates.io/crates/pico_args) — argument parsing
