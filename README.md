@@ -41,6 +41,10 @@ remux n -n foo
 
 ```
 
+If you're working in a git repository, the `attach`, `has`, and `new` commands
+can be used without a session title, and the repository directory name will be
+used instead.
+
 ## Dependencies
 
 ReMux depends on [tmux](https://github.com/tmux/tmux).
