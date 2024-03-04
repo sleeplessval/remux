@@ -8,6 +8,10 @@ homepage = "https://git.vwolfe.io/valerie/remux"
 repository = "https://git.vwolfe.io/valerie/remux"
 license = "MIT"
 
+[package.metadata.aur]
+name = "remux"
+archive = "archive/v$pkgver.tar.gz"
+
 [[bin]]
 name = "remux"
 path = "src/main.rs"
