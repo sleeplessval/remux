@@ -1,5 +1,6 @@
 //! globally available tmux commands.
 use std::{
+	env::var,
 	ffi::OsString,
 	process::exit
 };
@@ -117,6 +118,9 @@ pub fn list() {
 		return;
 	}
 
+	//	get attached session symbol
+	let attach_symbol = var("REMUX_ATTACH_SYMBOL").unwrap_or("*".to_string());
+
 	//	pretty print session list
 	println!("sessions:");
 	for session in sessions.into_iter() {
@@ -125,9 +129,9 @@ pub fn list() {
 		let attached = session.attached.unwrap_or(0) > 0;
 
 		println!(
-			"   {group} ({bold}{blue}{id}{reset}) {bold}{green}{attach_sym}{reset}",
-			//	value
-			attach_sym	= if attached { "\u{F0339}" } else { "" },
+			"   {group} ({bold}{blue}{id}{reset}) {bold}{green}{attach}{reset}",
+			//	values
+			attach		= if attached { attach_symbol.clone() } else { "".to_string() },
 			//	formatting
 			bold		= style::Bold,
 			blue		= color::Fg(color::Blue),

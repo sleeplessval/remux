@@ -85,6 +85,10 @@ using an AUR package manager such as <a href="https://github.com/Morganamilo/par
 Install the package using Cargo with the command <code>cargo install tmux-remux</code>.
 </details>
 
+## Configuration
+
+The pretty-print attached symbol (default: `*`) can be set manually by setting `REMUX_ATTACH_SYMBOL`.
+
 ## Libraries
 
 - [pico-args](https://crates.io/crates/pico_args) — argument parsing
