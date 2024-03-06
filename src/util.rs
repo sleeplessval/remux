@@ -5,20 +5,20 @@ use std::{
 };
 
 use tmux_interface::{
-	Session, Sessions, TmuxCommand,
-	variables::session::session::SESSION_ALL
+	Session, Tmux,
+
+	commands,
+	variables::session::SessionsCtl
 };
 
 use crate::error;
 
 ///	return a Vec of all sessions or None
 pub fn get_sessions() -> Option<Vec<Session>> {
-	let i_sessions = Sessions::get(SESSION_ALL);
-	if i_sessions.is_err() { return None; }
-	let sessions = i_sessions.ok();
-	if sessions.is_none() { return None; }
-
-	Some(sessions.unwrap().0)
+	let sessions = SessionsCtl::new().get_all();
+	if let Ok(sessions) = sessions {
+		return Some(sessions.0);
+	} else { return None; }
 }
 
 ///	show the tmux nest text if env var is not unset
@@ -32,10 +32,11 @@ pub fn prevent_nest() {
 
 ///	check whether a target session exists
 pub fn session_exists<S: Into<String>>(target: S) -> bool {
-	TmuxCommand::new()
-		.has_session()
-		.target_session(target.into())
-		.output().unwrap()
+	let has_session = commands::HasSession::new()
+		.target_session(target.into());
+	Tmux::new().add_command(has_session)
+		.status()
+		.unwrap()
 		.success()
 }
 

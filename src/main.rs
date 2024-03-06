@@ -7,6 +7,7 @@ use pico_args::Arguments;
 
 mod command;
 mod error;
+mod flag;
 mod help;
 mod util;
 
@@ -19,17 +20,17 @@ fn main() {
 	let mut args = Arguments::from_env();
 
 	//	consume flags
-	if args.contains(["-h", "--help"]) {
+	if args.contains(flag::HELP) {
 		help(&mut args);
 		return;
 	}
 
-	if args.contains(["-v", "--version"]) {
+	if args.contains(flag::VERSION) {
 		version();
 		return;
 	}
 
-	let nesting = args.contains(["-n", "--nest"]);
+	let nesting = args.contains(flag::NEST);
 	let tmux_var = var("TMUX").ok();
 	if nesting {
 		if tmux_var.is_none() {
@@ -48,20 +49,20 @@ fn main() {
 			=>	help(&mut args),
 
 		Some("a" | "attach")
-			=>	command::attach(&mut args),
+			=>	command::share::attach(&mut args),
 
 		Some("d" | "detach")
-			=>	command::detach(&mut args),
+			=>	command::share::detach(&mut args),
 
 		Some("has")
-			=>	command::has(&mut args),
+			=>	command::share::has(&mut args),
 
 		None |
 		Some("l" | "ls" | "list")
-			=>	command::list(),
+			=>	command::share::list(),
 
 		Some("n" | "new")
-			=>	command::new(&mut args),
+			=>	command::share::new(&mut args),
 
 		_
 			=>	error::no_subcommand(subcommand.unwrap())
