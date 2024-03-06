@@ -7,6 +7,10 @@ A tmux wrapper and command shortener written in Rust. ReMux's
 goal is to wrap tmux commands to be both shorter, and oriented
 around session names instead of session IDs.
 
+To further simplify developer usage, the `attach`, `detach`, `has`, and `new`
+commands can be used without a target field, and will default to the name of
+the Git repository root directory, if one is found.
+
 In their shortest forms, *every* ReMux command is as short or
 shorter than its equivalent tmux command:
 
@@ -40,10 +44,6 @@ TMUX='' tmux new-session -t foo
 remux n -n foo
 
 ```
-
-If you're working in a git repository, the `attach`, `detach`, `has`, and `new`
-commands can be used without a session title, and the repository directory name
-will be used instead.
 
 ## Dependencies
 
