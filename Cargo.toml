@@ -10,7 +10,9 @@ license = "MIT"
 
 [package.metadata.aur]
 name = "remux"
+type = "source"
 archive = "archive/v$pkgver.tar.gz"
+depends = [ "tmux>=3.0" ]
 
 [[bin]]
 name = "remux"
