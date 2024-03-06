@@ -41,9 +41,9 @@ remux n -n foo
 
 ```
 
-If you're working in a git repository, the `attach`, `has`, and `new` commands
-can be used without a session title, and the repository directory name will be
-used instead.
+If you're working in a git repository, the `attach`, `detach`, `has`, and `new`
+commands can be used without a session title, and the repository directory name
+will be used instead.
 
 ## Dependencies
 
