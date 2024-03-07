@@ -40,7 +40,7 @@ args:
 flags:
    -d, --detach       Detach other attached clients from the session
    -n, --nest         Attach the session inside another session.
-   -r, --readonly     Attach the session as read-only"),
+   -r, --read-only    Attach the session as read-only"),
 
 		Some("d" | "detach")
 		=>
@@ -81,6 +81,7 @@ println!("remux new
 Create a new tmux session.
 
 usage: remux new [flags] <title> [command]
+       remux n [flags] <title> [command]
 
 args:
    <title>                The title of the new session
