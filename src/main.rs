@@ -64,6 +64,9 @@ fn main() {
 		Some("n" | "new")
 			=>	command::share::new(&mut args),
 
+		Some("s" | "switch")
+			=>	command::session::switch(&mut args),
+
 		_
 			=>	error::no_subcommand(subcommand.unwrap())
 	}
