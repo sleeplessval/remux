@@ -7,12 +7,18 @@ A tmux wrapper and command shortener written in Rust. ReMux's
 goal is to wrap tmux commands to be both shorter, and oriented
 around session names instead of session IDs.
 
-To further simplify developer usage, the `attach`, `detach`, `has`, and `new`
-commands can be used without a target field, and will default to the name of
-the Git repository root directory, if one is found.
+To further simplify developer workflows, the `attach`, `detach`, `has`, and
+`new` commands will default to the name of the root directory if used inside
+a Git repository.
 
-In their shortest forms, *every* ReMux command is as short or
-shorter than its equivalent tmux command:
+## Goals
+
+- Accelerating: Makes simple tmux workflows faster.
+- Friendly: Easy to start using.
+- Short: Every ReMux command is as short or shorter than its raw tmux equivalent.
+
+<details>
+<summary><h2>Examples</h2></summary>
 
 ```sh
 
@@ -45,6 +51,8 @@ remux n -n foo
 
 ```
 
+</details>
+
 ## Dependencies
 
 ReMux depends on [tmux](https://github.com/tmux/tmux).
@@ -55,34 +63,43 @@ ReMux depends on [tmux](https://github.com/tmux/tmux).
 
 <details>
 <summary>Release Binary</summary>
-Copy the compiled binary from the <a href="https://git.vwolfe.io/valerie/remux/releases">releases page</a>
-to a directory in <code>$PATH</code>, such as <code>/usr/bin/</code>.
+
+Copy the compiled binary from the [releases page](https://git.vwolfe.io/valerie/remux/releases)
+to a directory in `$PATH`, such as `/usr/bin/`.
+
 </details>
 
 <details>
 <summary>Compile from Source</summary>
-Compile using cargo with the command <code>cargo build --release</code> and copy
-the file from <code>target/release/</code> to a directory in <code>$PATH</code>,
-such as <code>/usr/bin/</code>.
+
+Compile using cargo with the command `cargo build --release` and copy the file
+from `target/release/` to a directory in `$PATH`, such as `/usr/bin/`.
+
 </details>
 
 <details>
 <summary>makepkg (AUR)</summary>
-Clone the <a href="https://aur.archlinux.org/remux.git">AUR Repository</a> and
-run the command <code>makepkg --install</code>.
+
+Clone the [AUR Repository](https://aur.archlinux.org/remux.git) and run the
+command `makepkg --install`.
+
 </details>
 
 ### Package Managers
 
 <details>
 <summary>Arch Linux (AUR): <code>remux</code></summary>
-Install the package from the <a href="https://aur.archlinux.org/packages/remux"><code>remux</code> AUR Package</a>
-using an AUR package manager such as <a href="https://github.com/Morganamilo/paru"><code>paru</code></a>.
+
+Install the package from the [`remux` AUR Package](https://aur.archlinux.org/packages/remux)
+using an AUR package manager such as [`paru`](https://github.com/Morganamilo/paru").
+
 </details>
 
 <details>
 <summary>Cargo: <code>tmux-remux</code></summary>
-Install the package using Cargo with the command <code>cargo install tmux-remux</code>.
+
+Install the package using Cargo with the command `cargo install tmux-remux`.
+
 </details>
 
 ## Configuration
