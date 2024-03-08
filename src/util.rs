@@ -30,11 +30,20 @@ pub fn prevent_nest() {
 	}
 }
 
+///	enforce a command is being used in-session
+pub fn session_enforce(cmd: &'static str) {
+	let tmux = var("TMUX").unwrap_or("".to_string());
+	if tmux.is_empty() {
+		error::not_in_session(cmd);
+	}
+}
+
 ///	check whether a target session exists
 pub fn session_exists<S: Into<String>>(target: S) -> bool {
 	let has_session = commands::HasSession::new()
 		.target_session(target.into());
 	Tmux::new().add_command(has_session)
+		.disable_echo()
 		.status()
 		.unwrap()
 		.success()

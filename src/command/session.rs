@@ -9,20 +9,23 @@ use tmux_interface::{
 use crate::{ error, flag, util };
 
 pub fn switch(pargs: &mut Arguments) {
+	//	refuse to run outside a session
+	util::session_enforce("switch");
+
 	//	consume optional flags
 	let read_only = pargs.contains(flag::READ_ONLY);
-	let detach_other = pargs.contains(flag::DETACHED);
+	//TODO: -d flag handling needs to be done manually
 
 	let args = pargs.clone().finish();
 	if args.len() < 1 { error::missing_target(); }
 	let target = args.get(0).unwrap().to_string_lossy().to_string();
-	println!("{target}");
 
 	let exists = util::session_exists(target.clone());
 	if !exists { error::no_target(target.clone()); }
 
 	let mut switch = commands::SwitchClient::new();
 	switch = switch.target_session(target);
+	if read_only { switch.read_only = true; }
 
 	Tmux::new()
 		.add_command(switch)

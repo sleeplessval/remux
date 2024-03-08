@@ -37,3 +37,9 @@ pub fn not_nesting() {
 	exit(6);
 }
 
+///	tried to run a session command outside a session; code 7
+pub fn not_in_session(cmd: &'static str) {
+	println!("remux: '{cmd}' must be run from within a session");
+	exit(7);
+}
+
