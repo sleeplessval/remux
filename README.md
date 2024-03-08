@@ -49,6 +49,10 @@ remux a -n foo
 TMUX='' tmux new-session -t foo
 remux n -n foo
 
+#	switch
+tmux switch-client -t foo
+remux s foo
+
 ```
 
 </details>
