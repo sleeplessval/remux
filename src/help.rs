@@ -91,6 +91,21 @@ flags:
    -n, --nest             Create the session inside another session.
    -t, --target <dir>     Sets the target directory for the new session."),
 
+		Some("s" | "switch")
+		=>
+println!("remux switch
+Switch to a different tmux session.
+Must be run from inside a session.
+
+usage: remux switch [flags] <title>
+       remux s [flags] <title>
+
+args:
+   <title>                The title of the session to switch to.
+
+flags:
+   -r, --read-only        Attach the target session as read-only."),
+
 								//	not found
 		_	=>	error::no_help(topic.unwrap())
 	}
