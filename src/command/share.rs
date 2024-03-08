@@ -55,7 +55,7 @@ pub fn attach(pargs: &mut Arguments) {
 	//	build dispatch
 	let mut tmux = Tmux::new().add_command(attach);
 	if let Some(select_window) = select_window { tmux = tmux.add_command(select_window); }
-	tmux.disable_echo().output().ok();
+	tmux.output().ok();
 }
 
 pub fn detach(pargs: &mut Arguments) {
@@ -168,6 +168,6 @@ pub fn new(pargs: &mut Arguments) {
 
 	Tmux::new()
 		.add_command(new)
-		.disable_echo().output().ok();
+		.output().ok();
 }
 
