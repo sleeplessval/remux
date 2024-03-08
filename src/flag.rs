@@ -1,7 +1,7 @@
 
 type Flag = [&'static str;2];
 
-pub static DETACHED: Flag	= ["-d", "--detached"];
+pub static DETACH: Flag		= ["-d", "--detach"];
 pub static HELP: Flag		= ["-h", "--help"];
 pub static NEST: Flag		= ["-n", "--nest"];
 pub static QUIET: Flag		= ["-q", "--quiet"];
