@@ -35,7 +35,6 @@ pub fn session_exists<S: Into<String>>(target: S) -> bool {
 	let has_session = commands::HasSession::new()
 		.target_session(target.into());
 	Tmux::new().add_command(has_session)
-		.disable_echo()
 		.status()
 		.unwrap()
 		.success()
