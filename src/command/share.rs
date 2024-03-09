@@ -1,6 +1,5 @@
 //! globally available tmux commands.
 use std::{
-	env::var,
 	ffi::OsString,
 	process::exit
 };
@@ -12,7 +11,12 @@ use tmux_interface::{
 	commands
 };
 
-use crate::{ error, flag, util };
+use crate::{
+	env::{ self, env_var },
+	error,
+	flag,
+	util
+};
 
 pub fn attach(pargs: &mut Arguments) {
 	//	don't allow unflagged nests
@@ -119,7 +123,7 @@ pub fn list() {
 	}
 
 	//	get attached session symbol
-	let attach_symbol = var("REMUX_ATTACH_SYMBOL").unwrap_or("*".to_string());
+	let attach_symbol = env_var(env::ATTACH_SYMBOL);
 
 	//	pretty print session list
 	println!("sessions:");
