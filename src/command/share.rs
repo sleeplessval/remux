@@ -174,10 +174,16 @@ pub fn new(pargs: &mut Arguments) {
 	if let Some(command) = command { new.shell_command = Some(command.to_string_lossy()); }
 	if detached { new.detached = true; }
 	if let Ok(target_dir) = target_dir { new = new.start_directory(target_dir); }
-	if !window_name.is_empty() { new.window_name = Some(window_name.into()); }
 
-	Tmux::new()
-		.add_command(new)
-		.output().ok();
+	let mut tmux = Tmux::new().add_command(new);
+
+	//	rename window if var not empty
+	if !window_name.is_empty() {
+		let auto_name = commands::RenameWindow::new()
+			.new_name(window_name);
+		tmux = tmux.add_command(auto_name);
+	}
+
+	tmux.output().ok();
 }
 
