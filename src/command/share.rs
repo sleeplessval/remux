@@ -1,6 +1,5 @@
 //! globally available tmux commands.
 use std::{
-	env::var,
 	ffi::OsString,
 	process::exit
 };
@@ -12,7 +11,12 @@ use tmux_interface::{
 	commands
 };
 
-use crate::{ error, flag, util };
+use crate::{
+	env::{ self, env_var },
+	error,
+	flag,
+	util
+};
 
 pub fn attach(pargs: &mut Arguments) {
 	//	don't allow unflagged nests
@@ -20,7 +24,7 @@ pub fn attach(pargs: &mut Arguments) {
 
 	//	consume optional flags
 	let read_only = pargs.contains(flag::READ_ONLY);
-	let detach_other = pargs.contains(flag::DETACHED);
+	let detach_other = pargs.contains(flag::DETACH);
 
 	let args = pargs.clone().finish();
 	let target: String;
@@ -119,7 +123,7 @@ pub fn list() {
 	}
 
 	//	get attached session symbol
-	let attach_symbol = var("REMUX_ATTACH_SYMBOL").unwrap_or("*".to_string());
+	let attach_symbol = env_var(env::ATTACH_SYMBOL);
 
 	//	pretty print session list
 	println!("sessions:");
@@ -145,8 +149,12 @@ pub fn new(pargs: &mut Arguments) {
 	//	don't allow unflagged nesting
 	util::prevent_nest();
 
-	//	get optional flag
+	//	get optional flags
+	let detached = pargs.contains(flag::DETACH);
 	let target_dir: Result<String, Error> = pargs.value_from_str(flag::TARGET);
+
+	//	get environment variables
+	let window_name = env_var(env::NEW_WINDOW_NAME);
 
 	//	get target or fallback
 	let args = pargs.clone().finish();
@@ -164,10 +172,18 @@ pub fn new(pargs: &mut Arguments) {
 	let mut new = commands::NewSession::new();
 	new = new.session_name(title);
 	if let Some(command) = command { new.shell_command = Some(command.to_string_lossy()); }
+	if detached { new.detached = true; }
 	if let Ok(target_dir) = target_dir { new = new.start_directory(target_dir); }
 
-	Tmux::new()
-		.add_command(new)
-		.output().ok();
+	let mut tmux = Tmux::new().add_command(new);
+
+	//	rename window if var not empty
+	if !window_name.is_empty() {
+		let auto_name = commands::RenameWindow::new()
+			.new_name(window_name);
+		tmux = tmux.add_command(auto_name);
+	}
+
+	tmux.output().ok();
 }
 
