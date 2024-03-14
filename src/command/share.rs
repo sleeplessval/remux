@@ -149,9 +149,12 @@ pub fn new(pargs: &mut Arguments) {
 	//	don't allow unflagged nesting
 	util::prevent_nest();
 
-	//	get optional flag
+	//	get optional flags
 	let detached = pargs.contains(flag::DETACH);
 	let target_dir: Result<String, Error> = pargs.value_from_str(flag::TARGET);
+
+	//	get environment variables
+	let window_name = env_var(env::NEW_WINDOW_NAME);
 
 	//	get target or fallback
 	let args = pargs.clone().finish();
@@ -171,6 +174,7 @@ pub fn new(pargs: &mut Arguments) {
 	if let Some(command) = command { new.shell_command = Some(command.to_string_lossy()); }
 	if detached { new.detached = true; }
 	if let Ok(target_dir) = target_dir { new = new.start_directory(target_dir); }
+	if !window_name.is_empty() { new.window_name = Some(window_name.into()); }
 
 	Tmux::new()
 		.add_command(new)
