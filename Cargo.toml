@@ -14,7 +14,7 @@ path = "src/main.rs"
 
 [dependencies]
 pico-args = { version = "0.5.0", features = [ "combined-flags", "eq-separator" ] }
-termion = "2.0.1"
+termion = "3.0.0"
 tmux_interface = "0.3.2"
 
 [profile.release]
