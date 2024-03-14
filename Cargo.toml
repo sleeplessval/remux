@@ -7,6 +7,8 @@ description = "A friendly command shortener for tmux"
 homepage = "https://git.vwolfe.io/valerie/remux"
 repository = "https://git.vwolfe.io/valerie/remux"
 license = "MIT"
+categories = [ "command-line-utilities" ]
+keywords = [ "tmux", "remux" ]
 
 [package.metadata.aur]
 name = "remux"
