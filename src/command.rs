@@ -162,7 +162,7 @@ pub fn new(pargs: &mut Arguments) {
 
 	//	run command
 	new
-		.group_name(title)
+		.session_name(title)
 		.attach()
 		.start_directory(target_dir.unwrap_or(current_dir().unwrap().to_string_lossy().to_string()))
 		.output().ok();
