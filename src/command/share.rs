@@ -162,7 +162,7 @@ pub fn new(pargs: &mut Arguments) {
 	}
 
 	let mut new = commands::NewSession::new();
-	new = new.group_name(title);
+	new = new.session_name(title);
 	if let Some(command) = command { new.shell_command = Some(command.to_string_lossy()); }
 	if let Ok(target_dir) = target_dir { new = new.start_directory(target_dir); }
 
