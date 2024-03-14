@@ -124,7 +124,7 @@ pub fn list() {
 	//	pretty print session list
 	println!("sessions:");
 	for session in sessions.into_iter() {
-		let group = session.group.unwrap_or("[untitled]".to_string());
+		let group = session.name.unwrap_or("[untitled]".to_string());
 		let id = session.id.unwrap();
 		let attached = session.attached.unwrap_or(0) > 0;
 
