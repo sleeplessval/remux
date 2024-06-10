@@ -35,10 +35,7 @@ pub fn prevent_nest() {
 
 ///	enforce a command is being used in-session
 pub fn session_enforce(cmd: &'static str) {
-	let tmux = var("TMUX").unwrap_or("".to_string());
-	if tmux.is_empty() {
-		error::not_in_session(cmd);
-	}
+	if !env::tmux() { error::not_in_session(cmd); }
 }
 
 ///	check whether a target session exists
