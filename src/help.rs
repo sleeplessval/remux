@@ -59,12 +59,13 @@ usage: remux detach <session>
 args:
    <session>      The session name to detach clients from"),
 
-		Some("has")
+		Some("h" | "has")
 		=>
 println!("remux has
 Check if the target session exists.
 
 usage: remux has [flags] <session>
+       rmux h [flags] session
 
 args:
    <session>      The session to check for

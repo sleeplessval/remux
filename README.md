@@ -31,7 +31,7 @@ remux a foo
 
 #	has
 tmux h -t foo
-remux has foo
+remux h foo
 
 #	detach
 tmux det -t foo

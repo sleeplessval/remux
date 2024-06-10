@@ -41,7 +41,7 @@ fn main() {
 
 	//	invoke subcommand function
 	match subcommand.as_deref() {
-		Some("h" | "help")
+		Some("help")
 			=>	help(&mut args),
 
 		Some("a" | "attach")
@@ -50,7 +50,7 @@ fn main() {
 		Some("d" | "detach")
 			=>	command::share::detach(&mut args),
 
-		Some("has")
+		Some("h" | "has")
 			=>	command::share::has(&mut args),
 
 		None |
