@@ -130,7 +130,12 @@ println!("remux environment variables
 REMUX_ATTACH_SYMBOL
    Changes the symbol displayed for attached sessions displayed
    by the 'list' command.
-   Default: '*'"),
+   Default: '*'
+
+REMUX_NEW_WINDOW
+   Provides a default window name when creating a session with
+   the 'new' command, if not empty.
+   Default: ''"),
 
 		//	not found
 		_	=>	error::no_help(topic.unwrap())
