@@ -1,5 +1,6 @@
 use std::{
 	env::{ current_dir, var },
+	io::{ stdout, IsTerminal },
 	path::PathBuf,
 	process::exit
 };
@@ -47,6 +48,11 @@ pub fn session_exists<S: Into<String>>(target: S) -> bool {
 		.status()
 		.unwrap()
 		.success()
+}
+
+///	enforce a command is being run in a terminal
+pub fn terminal_enforce() {
+	if !stdout().is_terminal() { error::not_terminal(); }
 }
 
 ///	attempt to return the repo name or exit

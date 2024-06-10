@@ -1,4 +1,5 @@
 //!	commands accessible from within a session
+use std::fs::read_to_string;
 
 use pico_args::Arguments;
 use tmux_interface::{
@@ -8,7 +9,10 @@ use tmux_interface::{
 
 use crate::{ error, flag, util };
 
+const TMP_ROOT: &str = "/tmp/remux_root";
+
 pub fn switch(pargs: &mut Arguments) {
+	util::terminal_enforce();
 	//	refuse to run outside a session
 	util::session_enforce("switch");
 
@@ -30,5 +34,19 @@ pub fn switch(pargs: &mut Arguments) {
 	Tmux::new()
 		.add_command(switch)
 		.output().ok();
+}
+
+pub fn root() {
+	util::session_enforce("root");
+
+	let exec = commands::Run::new().shell_command("printf '#{session_path}' > ".to_string() + TMP_ROOT);
+	Tmux::new()
+		.add_command(exec)
+		.output().ok();
+
+	if let Ok(text) = read_to_string(TMP_ROOT) {
+		println!("{text}");
+		std::fs::remove_file(TMP_ROOT).ok();
+	}
 }
 

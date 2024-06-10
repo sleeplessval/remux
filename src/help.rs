@@ -91,6 +91,14 @@ flags:
    -n, --nest             Create the session inside another session.
    -t, --target <dir>     Sets the target directory for the new session."),
 
+		Some("root")
+		=>
+println!("remux root
+Print the session path (#{{session_path}}) to standard output.
+Must be run from inside a session.
+
+usage: remux root"),
+
 		Some("s" | "switch")
 		=>
 println!("remux switch

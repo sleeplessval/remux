@@ -1,7 +1,4 @@
-use std::{
-	env::{ set_var, var },
-	io::{ stdout, IsTerminal }
-};
+use std::env::{ set_var, var };
 
 use pico_args::Arguments;
 
@@ -39,8 +36,6 @@ fn main() {
 		set_var("TMUX", "");
 	}
 
-	if !stdout().is_terminal() { error::not_terminal(); }
-
 	let subcommand = args.subcommand().unwrap();
 
 	//	invoke subcommand function
@@ -63,6 +58,9 @@ fn main() {
 
 		Some("n" | "new")
 			=>	command::share::new(&mut args),
+
+		Some("root")
+			=>	command::session::root(),
 
 		Some("s" | "switch")
 			=>	command::session::switch(&mut args),

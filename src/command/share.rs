@@ -15,6 +15,8 @@ use tmux_interface::{
 use crate::{ error, flag, util };
 
 pub fn attach(pargs: &mut Arguments) {
+	//	must be run from terminal
+	util::terminal_enforce();
 	//	don't allow unflagged nests
 	util::prevent_nest();
 
@@ -59,6 +61,7 @@ pub fn attach(pargs: &mut Arguments) {
 }
 
 pub fn detach(pargs: &mut Arguments) {
+	util::terminal_enforce();
 	//	get target or fallback
 	let args = pargs.clone().finish();
 	let target: String;
@@ -142,6 +145,7 @@ pub fn list() {
 }
 
 pub fn new(pargs: &mut Arguments) {
+	util::terminal_enforce();
 	//	don't allow unflagged nesting
 	util::prevent_nest();
 
