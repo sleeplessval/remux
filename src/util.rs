@@ -28,7 +28,7 @@ pub fn get_sessions() -> Option<Vec<Session>> {
 ///	show the tmux nest text if env var is not unset
 pub fn prevent_nest() {
 	if env::tmux() {
-		println!("Sessions should be nested with care; unset TMUX or use the '-n' flag to allow.");
+		println!("To nest sessions, use the -n flag.");
 		exit(6);
 	}
 }
