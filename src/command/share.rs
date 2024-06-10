@@ -22,7 +22,7 @@ pub fn attach(pargs: &mut Arguments) {
 
 	//	consume optional flags
 	let read_only = pargs.contains(flag::READ_ONLY);
-	let detach_other = pargs.contains(flag::DETACHED);
+	let detach_other = pargs.contains(flag::DETACH);
 
 	let args = pargs.clone().finish();
 	let target: String;
@@ -150,6 +150,7 @@ pub fn new(pargs: &mut Arguments) {
 	util::prevent_nest();
 
 	//	get optional flag
+	let detached = pargs.contains(flag::DETACH);
 	let target_dir: Result<String, Error> = pargs.value_from_str(flag::TARGET);
 
 	//	get target or fallback
@@ -168,6 +169,7 @@ pub fn new(pargs: &mut Arguments) {
 	let mut new = commands::NewSession::new();
 	new = new.group_name(title);
 	if let Some(command) = command { new.shell_command = Some(command.to_string_lossy()); }
+	if detached { new.detached = true; }
 	if let Ok(target_dir) = target_dir { new = new.start_directory(target_dir); }
 
 	Tmux::new()
