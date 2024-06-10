@@ -25,7 +25,10 @@ commands:
 
 Use 'remux help <command>' to see detailed help text for each command."),
 
-		Some("a" | "attach")
+
+//	COMMAND HELP
+
+	Some("a" | "attach")
 		=>
 println!("remux attach
 Attach to an existing session.
@@ -114,7 +117,19 @@ args:
 flags:
    -r, --read-only        Attach the target session as read-only."),
 
-								//	not found
+
+//	TOPIC HELP
+
+		Some("env" | "vars")
+			=>
+println!("remux environment variables
+
+REMUX_ATTACH_SYMBOL
+   Changes the symbol displayed for attached sessions displayed
+   by the 'list' command.
+   Default: '*'"),
+
+		//	not found
 		_	=>	error::no_help(topic.unwrap())
 	}
 }
