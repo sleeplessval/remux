@@ -3,6 +3,7 @@ use std::env::{ set_var, var };
 use pico_args::Arguments;
 
 mod command;
+mod env;
 mod error;
 mod flag;
 mod help;

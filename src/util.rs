@@ -1,5 +1,5 @@
 use std::{
-	env::{ current_dir, var },
+	env::current_dir,
 	io::{ stdout, IsTerminal },
 	path::PathBuf,
 	process::exit
@@ -12,7 +12,10 @@ use tmux_interface::{
 	variables::session::SessionsCtl
 };
 
-use crate::error;
+use crate::{
+	env,
+	error
+};
 
 ///	return a Vec of all sessions or None
 pub fn get_sessions() -> Option<Vec<Session>> {
@@ -24,10 +27,9 @@ pub fn get_sessions() -> Option<Vec<Session>> {
 
 ///	show the tmux nest text if env var is not unset
 pub fn prevent_nest() {
-	let tmux = var("TMUX").ok();
-	if tmux.is_some() && tmux.unwrap() != "" {
+	if env::tmux() {
 		println!("Sessions should be nested with care; unset TMUX or use the '-n' flag to allow.");
-		exit(1);
+		exit(6);
 	}
 }
 
