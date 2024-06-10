@@ -16,14 +16,17 @@ A command wrapper for tmux written in Rust.
 usage: remux <command> [<args>]
 
 commands:
-   help       Show help text for remux or a specific command
+   help       Show help text for remux, a command, or a help topic.
    attach     Attach to an existing tmux session
    detach     Detach clients from a tmux session
    has        Check if a tmux session exists
    list       Pretty-print all tmux sessions
    new        Create a new tmux session
 
-Use 'remux help <command>' to see detailed help text for each command."),
+Use 'remux help <command>' to see detailed help text for each command.
+
+help topics:
+   env        Environment variables"),
 
 
 //	COMMAND HELP
