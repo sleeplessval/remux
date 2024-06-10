@@ -17,10 +17,10 @@ shorter than its equivalent tmux command:
 ```sh
 
 #	new session
-tmux new-session -t foo
+tmux new-s -t foo
 remux n foo
 
-#	lists
+#	list sessions
 tmux ls
 remux l
 remux
@@ -30,11 +30,11 @@ tmux a -t foo
 remux a foo
 
 #	has
-tmux has -t foo
+tmux h -t foo
 remux has foo
 
 #	detach
-tmux detach-client -t foo
+tmux det -t foo
 remux d foo
 
 #	nesting sessions with '-n' flag
@@ -42,6 +42,15 @@ TMUX='' tmux a -t foo
 remux a -n foo
 TMUX='' tmux new-session -t foo
 remux n -n foo
+
+#	switch to another session
+tmux swi -t foo
+rmux s foo
+
+#	cd to session path
+tmux run 'printf "#{session_path}" > /tmp/tmux_root'
+cd `cat /tmp/tmux_root`
+cd `rmux root`
 
 ```
 
