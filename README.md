@@ -48,9 +48,9 @@ tmux swi -t foo
 rmux s foo
 
 #	cd to session path
-tmux run 'printf "#{session_path}" > /tmp/tmux_root'
-cd `cat /tmp/tmux_root`
-cd `rmux root`
+tmux run 'printf "#{session_path}" > /tmp/tmux_path'
+cd `cat /tmp/tmux_path`
+cd `rmux p`
 
 ```
 

@@ -60,8 +60,8 @@ fn main() {
 		Some("n" | "new")
 			=>	command::share::new(&mut args),
 
-		Some("root")
-			=>	command::session::root(),
+		Some("p" | "path")
+			=>	command::session::path(),
 
 		Some("s" | "switch")
 			=>	command::session::switch(&mut args),

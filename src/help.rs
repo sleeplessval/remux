@@ -23,6 +23,9 @@ commands:
    list       Pretty-print all tmux sessions
    new        Create a new tmux session
 
+   path       print session path (session)
+   switch     switch to another session (session)
+
 Use 'remux help <command>' to see detailed help text for each command.
 
 help topics:
@@ -100,11 +103,12 @@ flags:
 
 		Some("root")
 		=>
-println!("remux root
+println!("remux path
 Print the session path (#{{session_path}}) to standard output.
 Must be run from inside a session.
 
-usage: remux root"),
+usage: remux path
+       remux p"),
 
 		Some("s" | "switch")
 		=>

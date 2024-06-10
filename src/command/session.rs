@@ -9,7 +9,7 @@ use tmux_interface::{
 
 use crate::{ error, flag, util };
 
-const TMP_ROOT: &str = "/tmp/remux_root";
+const TMP_ROOT: &str = "/tmp/remux_path";
 
 pub fn switch(pargs: &mut Arguments) {
 	util::terminal_enforce();
@@ -36,8 +36,8 @@ pub fn switch(pargs: &mut Arguments) {
 		.output().ok();
 }
 
-pub fn root() {
-	util::session_enforce("root");
+pub fn path() {
+	util::session_enforce("path");
 
 	let exec = commands::Run::new().shell_command("printf '#{session_path}' > ".to_string() + TMP_ROOT);
 	Tmux::new()
