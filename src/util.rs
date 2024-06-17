@@ -1,42 +1,56 @@
 use std::{
-	env::{ current_dir, var },
+	env::current_dir,
+	io::{ stdout, IsTerminal },
 	path::PathBuf,
 	process::exit
 };
 
 use tmux_interface::{
-	Session, Sessions, TmuxCommand,
-	variables::session::session::SESSION_ALL
+	Session, Tmux,
+
+	commands,
+	variables::session::SessionsCtl
 };
 
-use crate::error;
+use crate::{
+	env,
+	error
+};
 
 ///	return a Vec of all sessions or None
 pub fn get_sessions() -> Option<Vec<Session>> {
-	let i_sessions = Sessions::get(SESSION_ALL);
-	if i_sessions.is_err() { return None; }
-	let sessions = i_sessions.ok();
-	if sessions.is_none() { return None; }
-
-	Some(sessions.unwrap().0)
+	let sessions = SessionsCtl::new().get_all();
+	if let Ok(sessions) = sessions {
+		return Some(sessions.0);
+	} else { return None; }
 }
 
 ///	show the tmux nest text if env var is not unset
 pub fn prevent_nest() {
-	let tmux = var("TMUX").ok();
-	if tmux.is_some() && tmux.unwrap() != "" {
-		println!("Sessions should be nested with care; unset TMUX or use the '-n' flag to allow.");
-		exit(1);
+	if env::tmux() {
+		println!("To nest sessions, use the -n flag.");
+		exit(6);
 	}
+}
+
+///	enforce a command is being used in-session
+pub fn session_enforce(cmd: &'static str) {
+	if !env::tmux() { error::not_in_session(cmd); }
 }
 
 ///	check whether a target session exists
 pub fn session_exists<S: Into<String>>(target: S) -> bool {
-	TmuxCommand::new()
-		.has_session()
-		.target_session(target.into())
-		.output().unwrap()
+	let has_session = commands::HasSession::new()
+		.target_session(target.into());
+	Tmux::new().add_command(has_session)
+		.status()
+		.unwrap()
 		.success()
+}
+
+///	enforce a command is being run in a terminal
+pub fn terminal_enforce() {
+	if !stdout().is_terminal() { error::not_terminal(); }
 }
 
 ///	attempt to return the repo name or exit

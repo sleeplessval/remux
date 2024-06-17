@@ -1,12 +1,11 @@
-use std::{
-	env::{ set_var, var },
-	io::{ stdout, IsTerminal }
-};
+use std::env::{ set_var, var };
 
 use pico_args::Arguments;
 
 mod command;
+mod env;
 mod error;
+mod flag;
 mod help;
 mod util;
 
@@ -19,17 +18,17 @@ fn main() {
 	let mut args = Arguments::from_env();
 
 	//	consume flags
-	if args.contains(["-h", "--help"]) {
+	if args.contains(flag::HELP) {
 		help(&mut args);
 		return;
 	}
 
-	if args.contains(["-v", "--version"]) {
+	if args.contains(flag::VERSION) {
 		version();
 		return;
 	}
 
-	let nesting = args.contains(["-n", "--nest"]);
+	let nesting = args.contains(flag::NEST);
 	let tmux_var = var("TMUX").ok();
 	if nesting {
 		if tmux_var.is_none() {
@@ -38,30 +37,34 @@ fn main() {
 		set_var("TMUX", "");
 	}
 
-	if !stdout().is_terminal() { error::not_terminal(); }
-
 	let subcommand = args.subcommand().unwrap();
 
 	//	invoke subcommand function
 	match subcommand.as_deref() {
-		Some("h" | "help")
+		Some("help")
 			=>	help(&mut args),
 
 		Some("a" | "attach")
-			=>	command::attach(&mut args),
+			=>	command::share::attach(&mut args),
 
 		Some("d" | "detach")
-			=>	command::detach(&mut args),
+			=>	command::share::detach(&mut args),
 
-		Some("has")
-			=>	command::has(&mut args),
+		Some("h" | "has")
+			=>	command::share::has(&mut args),
 
 		None |
 		Some("l" | "ls" | "list")
-			=>	command::list(),
+			=>	command::share::list(),
 
 		Some("n" | "new")
-			=>	command::new(&mut args),
+			=>	command::share::new(&mut args),
+
+		Some("p" | "path")
+			=>	command::session::path(),
+
+		Some("s" | "switch")
+			=>	command::session::switch(&mut args),
 
 		_
 			=>	error::no_subcommand(subcommand.unwrap())

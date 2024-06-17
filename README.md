@@ -7,16 +7,20 @@ A tmux wrapper and command shortener written in Rust. ReMux's
 goal is to wrap tmux commands to be both shorter, and oriented
 around session names instead of session IDs.
 
+To further simplify developer usage, the `attach`, `detach`, `has`, and `new`
+commands can be used without a target field, and will default to the name of
+the Git repository root directory, if one is found.
+
 In their shortest forms, *every* ReMux command is as short or
 shorter than its equivalent tmux command:
 
 ```sh
 
 #	new session
-tmux new-session -t foo
+tmux new-s -t foo
 remux n foo
 
-#	lists
+#	list sessions
 tmux ls
 remux l
 remux
@@ -26,11 +30,11 @@ tmux a -t foo
 remux a foo
 
 #	has
-tmux has -t foo
-remux has foo
+tmux h -t foo
+remux h foo
 
 #	detach
-tmux detach-client -t foo
+tmux det -t foo
 remux d foo
 
 #	nesting sessions with '-n' flag
@@ -39,11 +43,16 @@ remux a -n foo
 TMUX='' tmux new-session -t foo
 remux n -n foo
 
-```
+#	switch to another session
+tmux swi -t foo
+rmux s foo
 
-If you're working in a git repository, the `attach`, `has`, and `new` commands
-can be used without a session title, and the repository directory name will be
-used instead.
+#	cd to session path
+tmux run 'printf "#{session_path}" > /tmp/tmux_path'
+cd `cat /tmp/tmux_path`
+cd `rmux p`
+
+```
 
 ## Dependencies
 
@@ -84,6 +93,10 @@ using an AUR package manager such as <a href="https://github.com/Morganamilo/par
 <summary>Cargo: <code>tmux-remux</code></summary>
 Install the package using Cargo with the command <code>cargo install tmux-remux</code>.
 </details>
+
+## Configuration
+
+The pretty-print attached symbol (default: `*`) can be set manually by setting `REMUX_ATTACH_SYMBOL`.
 
 ## Libraries
 
