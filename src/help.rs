@@ -13,7 +13,7 @@ println!("remux v{VERSION}
 Valerie Wolfe <sleeplessval@gmail.com>
 A command wrapper for tmux written in Rust.
 
-usage: remux <command> [<args>]
+usage: remux [command] [<args>]
 
 commands:
    help       Show help text for remux, a command, or a help topic.

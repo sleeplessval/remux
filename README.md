@@ -23,7 +23,6 @@ remux n foo
 #	list sessions
 tmux ls
 remux l
-remux
 
 #	attach
 tmux a -t foo
