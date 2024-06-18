@@ -64,6 +64,23 @@ pub fn attach(pargs: &mut Arguments) {
 	tmux.output().ok();
 }
 
+pub fn context_action() {
+	let repo = util::repo_root(std::env::current_dir().unwrap());
+	if !env::tmux() && repo.is_some() {
+		let target = util::repo_fallback();
+		let mut args = Arguments::from_vec( vec![(&target).into()] );
+		if util::session_exists(&target) {
+			attach(&mut args);
+		} else {
+			new(&mut args);
+		}
+		return;
+	} else {
+		//	fallback behavior is list
+		list();
+	}
+}
+
 pub fn detach(pargs: &mut Arguments) {
 	util::terminal_enforce();
 	//	get target or fallback

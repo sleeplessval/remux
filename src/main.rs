@@ -43,6 +43,8 @@ fn main() {
 	match subcommand.as_deref() {
 		Some("help")
 			=>	help(&mut args),
+		None
+			=>	command::share::context_action(),
 
 		Some("a" | "attach")
 			=>	command::share::attach(&mut args),
@@ -53,7 +55,6 @@ fn main() {
 		Some("h" | "has")
 			=>	command::share::has(&mut args),
 
-		None |
 		Some("l" | "ls" | "list")
 			=>	command::share::list(),
 
